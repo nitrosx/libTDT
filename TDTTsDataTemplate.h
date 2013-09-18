@@ -45,12 +45,12 @@ template< typedef D >
       /* 
        * operator +
        */
-      const TDTTsDataTemplate operator+(const TDTTsDataTemplate &rhs);
+      TDTTsDataTemplate< D >& operator+(const TDTTsDataTemplate< D > &iTsData);
 
       /*
        * operator =
        */
-      const TDTTsDataTemplate operator=(const TDTTsDataTemplate &rhs);
+      TDTTsDataTemplate< D >& operator=(const TDTTsDataTemplate< D > &iTsData);
       /*
        * vector or point ordered by time
        * we use map, so we can retrieve the points in the right order
@@ -136,10 +136,26 @@ template< typedef D >
 /*
  * operator +
  */
-
+template< typedef D >
+  TDTTsDataTemplate< D >::operator+(const TDTsDataTemplate< D > iTsData)
+  {
+    // insert all the element of timeserie in iData to our internal map
+    cTimeserie.insert(iTsData.cTimeserie.begin(),iTsData.cTimeserie.end());
+    // return us
+    return *this;
+  }
 
 /*
  * operator =
  */
-
+template< typedef D >
+  TDTTsDataTemplate< D >::operator=(const TDTTsDataTemplate< D > iTsData)
+  {
+    // remove all the item in our map
+    cTImeserie.clear();
+    // transfer all items of iData map to our map
+    cTimeserie=iTsData.cTimeserie;
+    // return 
+    return *this;
+  }
 #endif
