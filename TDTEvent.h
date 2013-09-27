@@ -1,7 +1,7 @@
 #ifndef TDTEvent
 #define TDTEvent
 
-#include "TDTData.h"
+#include "TDTData.hpp"
 #include "TDTChannel.h"
 
 /*

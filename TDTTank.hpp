@@ -1,10 +1,8 @@
-#ifndef H_TDTTank
-#define H_TDTTank
-
+#ifndef TDTTank
+#define TDTTank
 #include <iostream>
 #include <string>
 
-#include "TDTConditions.h"
 
 class TDTTank 
 {
@@ -16,27 +14,27 @@ class TDTTank
      * it's the file names without extensions
      * it's not mandatory
      */
-    std::string cRoot;
+    string cRoot;
     /*
      * tev file path
      * it's the file containing the event data
      */
-    std::string cTevFilePath;
+    string cTevFilePath;
     /*
      * tsq file path
      * it's the file containing the event headers
      */
-    std::string cTsqFilePath;
+    string cTsqFilePath;
     /*
      * tbk file path
      * it's the file containing the notes for this recording
      */
-    std::string cTbkFilePath;
+    string cTbkFilePath;
     /*
      * tdx file path
      * not sure what it contains
      */
-    std::string cTdxFilePath;
+    string cTdxFilePath;
 
     /*
      * conditions for filtering headers
@@ -47,7 +45,7 @@ class TDTTank
     /*
      * number of header to be read simultaneusly
      */
-    static int cNHeaders;
+    static int cNHeaders = 200000;
 
     /*
      * find the right element in the list of channels and returns pointer

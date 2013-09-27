@@ -1,12 +1,14 @@
-#ifndef TDTData
-#define TDTData
+#ifndef H_TDTData
+#define H_TDTData
+
+#include <string>
 
 namespace TDTData {
 
   /*
    * tdt data type
    */
-  typedef char[4]        tdtCode;    /* Event code */
+  typedef char           tdtCode [4];    /* Event code */
   typedef unsigned short tdtChannel; /* Event channel */
 
 
@@ -15,10 +17,10 @@ namespace TDTData {
    * files names structure
    */
   struct tdtFiles {
-    string tev;
-    string tsq;
-    string tbk;
-    string tdx;
+    std::string tev;
+    std::string tsq;
+    std::string tbk;
+    std::string tdx;
   };
 
 
@@ -35,10 +37,10 @@ namespace TDTData {
     union {
       long long    ev_offset; /* data offset in the TEV file */
       double       strobe;    /* raw data value */
-    }
+    };
     long           format;    /* data format of event: byte, short, float(usually), double */
     float          frequency; /* sampling frequency */
   };
 
-}
+};
 #endif

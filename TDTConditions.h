@@ -1,7 +1,9 @@
-#ifndef TDTConditions
-#define TDTConditions
+#ifndef H_TDTConditions
+#define H_TDTConditions
 
-#include "TDTData.h"
+#include "TDTData.hpp"
+#include <vector>
+#include <set>
 
 /*
  * class TDTConditions
@@ -25,11 +27,11 @@ class TDTConditions {
     /*
      * this constructor insert a specific code event as condition
      */
-    TDTConditions(TDTData::tdtCode lCode);
+    TDTConditions(TDTData::tdtCode const& lCode);
     /*
      * this constructor insert a specific channel as condition
      */
-    TDTConditions(TDTData::tdtChannel lChannel);
+    TDTConditions(TDTData::tdtChannel const& lChannel);
     /*
      * deconstructor
      */
@@ -38,39 +40,39 @@ class TDTConditions {
     /*
      * Add a new code to the conditions list
      */
-    void AddCode(TDTData::tdtCode lCode);
+    int AddCode(TDTData::tdtCode const& lCode);
 
     /*
      * Add a new channel to the conditions list
      */
-    void AddChannel(TDTData::tdtChannel lChannel);
+    int AddChannel(TDTData::tdtChannel const& lChannel);
   
     /*
      * return the list of event codes selected
      */
-    vector<TDTData::tdtCode>* GetCodes();
+    std::vector<std::string> GetCodes();
 
     /*
      * return the list of channels selected
      */
-    vector<TDTData::tdtChannel>* GetChannels();
+    std::vector<TDTData::tdtChannel> GetChannels();
 
     /*
      * comparison operators
      */
-    bool operator ==(TDTData::tdtCode lCode);
-    bool operator ==(TDTData::tdtChannel lChannel);
+    bool operator ==(TDTData::tdtCode const& lCode);
+    bool operator ==(TDTData::tdtChannel const& lChannel);
 
     /*
      * check both code and channel
      */
-    bool Check(TDTData::tdtCode lCode, TDTData:tdtChannel lChannel);
+    bool Check(TDTData::tdtCode const& lCode, TDTData::tdtChannel const& lChannel);
 
     /*
      * find the code or channel requested in the list
      */
-    bool Find(TDTData::tdtCode lCode);
-    bool Find(TDTData::tdtChannel lChannel);
+    bool Find(TDTData::tdtCode const& lCode);
+    bool Find(TDTData::tdtChannel const& lChannel);
 
     /*
      * clear all the conditions inserted
@@ -84,12 +86,12 @@ class TDTConditions {
      * internally we an undorderd_map
      * it makes it easier to search and compare
      */
-    std::set<TDTData::tdtCode> cCodes;
+    std::set<std::string> cCodes;
 
     /*
      * list of channels
      */
     std::set<TDTData::tdtChannel> cChannels;
 
-}
+};
 #endif

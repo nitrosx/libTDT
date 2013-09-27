@@ -1,8 +1,12 @@
-#ifndef TDTTevBuffer
-#define TDTTevBuffer
+#ifndef H_TDTTevBufferTemplate
+#define H_TDTTevBufferTemplate
 
-template<typedef D>
-  class TDTTevBuffer {
+#include <algorithm>
+#include <cstdlib>
+#include "TDTTevBuffer.hpp"
+
+template<typename D>
+  class TDTTevBufferTemplate: public TDTTevBuffer {
 
     public:
       /*
@@ -11,14 +15,14 @@ template<typedef D>
        * lOffset = position of the chunk of file in bytes
        * lSize   = number of T data to read
        */
-      void TDTTevBuffer(FILE* lFid, long lOffset, unsigned long lSize):
-        cFid(lFid), cOffset(lOffset), cSize(lSize), cElements(0)
+      TDTTevBufferTemplate(FILE* lFid, long lOffset, unsigned long lSize):
+        TDTTevBuffer(lFid, lOffset, lSize, 0)
       {
       };
       /*
        * destructor
        */
-      void ~TDTTevBuffer()
+      ~TDTTevBufferTemplate()
       {
       };
 
@@ -30,14 +34,14 @@ template<typedef D>
          * allocate memory for the array
          * dimension = size of T * size of the chunk to be read
          */
-        cBuffer = (T*)malloc(sizeof(D)*cSize);
+        cBuffer = (D*) malloc (cSize*sizeof(D));
 
         /*
          * position file pointer on right position
          */
         fseek(
-          fid,       /* file descriptor */
-          cOffest,   /* start position in the file of the data */
+          cFid,       /* file descriptor */
+          cOffset,   /* start position in the file of the data */
           SEEK_SET); /* starting from the beginning of the file */
 
         /*
@@ -46,23 +50,10 @@ template<typedef D>
         cElements = fread(
           (D*)cBuffer, /* buffer where to store the data read */
           sizeof(D),   /* dimension in bytes of the type of data */
-          lSize,       /* number of data unit to read */
-          fid);        /* file descriptor */
+          cSize,       /* number of data unit to read */
+          cFid);        /* file descriptor */
       }
 
-      /*
-       * return iterator for this class
-       */
-      TDTTevBuffer::Iterator* Iterator() {
-        return new TDTTevBuffer::Iterator(this);
-      }
-      /*
-       * begin of the iterator
-       */
-      TDTTevBuffer::Iterator* begin()
-      {
-        return Iterator();
-      }
       /*
        * size of the data
        */
@@ -78,27 +69,36 @@ template<typedef D>
       }
 
       /*
-       * TDTTevBuffer iterator
+       * TDTTevBufferTemplate iterator
        */
-      class Iterator
-      {
+      class Iterator {
 
-          const TDTTevBuffer* cBuffer;
+          const D* cBufferBegin;
           unsigned long cIndex;
+          unsigned long cBufferSize;
 
         public:
           /*
            * constructor
            */
-          Iterator(const TDTTevBuffer &lBuffer): cBuffer(lBuffer)
+          Iterator(const D* &lBuffer, unsigned long lSize):
+            cBufferBegin(lBuffer), cBufferSize(lSize)
           {
             cIndex = 0;
           }
           /*
+           * destructor
+           */
+          ~Iterator()
+          {
+          }
+          /*
            * ++ operator
            */
-          self_type operator++() 
+          Iterator& operator++() 
           { 
+            // check if we are at the end
+            
             // incrememnt the index
             cIndex++;
             // return itself
@@ -108,21 +108,25 @@ template<typedef D>
            * reference operator
            * return data at index of the array
            */
-          <D> operator*() 
+          D& operator*() 
           { 
-            return cBuffer->[cIndex]; 
+            // define temporery pointer to buffer
+            D* lBuffer;
+            // initialize to current element pointed by index
+            lBuffer = cBufferBegin + sizeof(D)*std::min(cIndex,(cBufferSize-1));
+            return (*lBuffer); 
           }
           /*
            * pointer operator
            */
-          TDTTevBuffer* operator->() 
+          D* operator->() 
           { 
             return cBuffer; 
           }
           /*
            * equality operator with another iterator
            */
-          bool operator==(const TDTTevBuffer::Iter& oIter) 
+          bool operator==(const TDTTevBufferTemplate::Iterator& oIter) 
           { 
             return cIndex == oIter.cIndex; 
           }
@@ -136,7 +140,7 @@ template<typedef D>
           /*
            * inequality operator
            */
-          bool operator!=(const TDTTevBuffer::Iter& oIter) 
+          bool operator!=(const TDTTevBufferTemplate::Iterator& oIter) 
           { 
             return cIndex != oIter.cIndex; 
           }
@@ -150,22 +154,28 @@ template<typedef D>
 
       };
       // iterator
-      friend class TDTTevBufferIterator;
+      //friend class TDTTevBufferTemplate::Iterator;
+
+      /*
+       * begin of the iterator
+       */
+      Iterator begin()
+      {
+        return Iterator();
+      }
 
     private:
       // array where we store the data read from file
       D* cBuffer;
       // number of elements
-      unsigned long cElements = 0;
+      //unsigned long cElements = 0;
       // input file descriptor
-      FILE * fid;
+      //FILE * fid;
       // offset of teh data chunk
-      long lOffset;
+      //long lOffset;
       // number of elements to read
-      unsigned long lSize;
+      //unsigned long lSize;
 
   };
-
-
 
 #endif

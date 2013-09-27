@@ -1,7 +1,7 @@
 #ifndef TDTChannel
 #define TDTChannel
 
-#include "TDTData.h"
+#include "TDTData.hpp"
 #include "TDTHeader.h"
 
 class TDTChannel {

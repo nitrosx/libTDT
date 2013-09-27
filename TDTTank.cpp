@@ -1,20 +1,23 @@
+#ifndef TDTTank
+#define TDTTank
+
 #include "TDTTank.h"
 
 /*
  * class constants
  */
-TDTTank::NHeaders = 200000;
+static int TDTTank::cNHeaders = 200000;
 
 /*
  * constructors
  */
-TDTTank::TDTTank()
-  : cRoot(""), cTevFilePath(""), cTsqFilePath(""), cTbkFilePath(""), cTdxFilePath(""), cConditions(NULL)
+TDTTank::TDTTank() :
+  cRoot(""), cTevFilePath(""), cTsqFilePath(""), cTbkFilePath(""), cTdxFilePath(""), cConditions(0X0)
 {
 
 }
 TDTTank::TDTTank(string lRoot)
-  : cConditions(NULL)
+  : cConditions(0x0)
 {
   // set root path and files names
   SetRoot(lRoot);
@@ -730,3 +733,4 @@ TDTTank::GetNotes(iCode)
   return 0X0;
 }
 
+#endif

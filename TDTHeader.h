@@ -1,32 +1,30 @@
-#ifndef TDTHeader
-#define TDTHeader
+#ifndef H_TDTHeader
+#define H_TDTHeader
 
-#include "TDTData.h"
+#include "TDTData.hpp"
+#include <vector>
 
 class TDTHeader {
 
   public:
     // constructor
-    void TDTHeader();
-    void TDTHeader(tsqHeader const &lHeader);
+    TDTHeader();
+    TDTHeader(TDTData::tsqHeader const &lHeader);
     // deconstructor
-    void ~TDTHeader();
+    ~TDTHeader();
 
     // getter method
-    tsqHeader Get();
+    TDTData::tsqHeader Get();
 
     // given the fid for the teq file
     // reads the data from the appropriate block
-    vector* ReadData(FILE* fid = void);
+    void* ReadData(FILE* fid = void);
     
     // get value from the offset value
     double GetValue();
 
     // get data
-    vector* GetData(FILE* fid = void);
-
-    // get the entire structure
-    tsqHeader Get();
+    std::vector* GetData(FILE* fid = void);
 
     // return event type according to TDT
     long Type();
@@ -41,7 +39,7 @@ class TDTHeader {
     /* 
      * header data
      */
-    tsqHeader cHeader;
+    TDTData::tsqHeader cHeader;
 
 }
 
