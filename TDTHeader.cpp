@@ -3,6 +3,7 @@
 #include "TDTPoint.h"
 #include "TDTHeaderType.h"
 #include "TDTHeaderFormat.h"
+#include "TDTTevBufferTemplate.h"
 
 /*
  * constructor, no arguments
@@ -51,7 +52,7 @@ tsqHeader TDTHeader::Get()
 vector* ReadData(FILE* fid = void)
 {
   // buffer to read from the file
-  TDTHeaderFormat* lBuffer;
+  TDTTevBuffer* lBuffer;
   // pointer to a vector of correctly typed TDTPoints
   // this vector will hold the points (time,value)
   vector* lVector = TDTHeaderType::VectorInstance(cHeader->type);
@@ -61,22 +62,22 @@ vector* ReadData(FILE* fid = void)
   // instantiate the buffer object with the correct data type
   switch (cHeader.format) {
     case TDTHeaderFormat::Float:
-      lBuffer = new TDTTevBuffer<float>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<float>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
     case TDTHeaderFormat::Long:
-      lBuffer = new TDTTevBuffer<long>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<long>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
     case TDTHeaderFormat::Short:
-      lBuffer = new TDTTevBuffer<short>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<short>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
     case TDTHeaderFormat::Byte:
-      lBuffer = new TDTTevBuffer<char>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<char>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
     case TDTHeaderFormat::Double:
-      lBuffer = new TDTTevBuffer<double>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<double>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
     case TDTHeaderFormat::LongLong:
-      lBuffer = new TDTTevBuffer<long long>(fid,cHeader.offset,(unsigned long)cHeader.size);
+      lBuffer = new TDTTevBufferTemplate<long long>(fid,cHeader.offset,(unsigned long)cHeader.size);
       break;
   }
   // reads the chunk
